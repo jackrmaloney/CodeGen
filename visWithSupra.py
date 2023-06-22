@@ -297,6 +297,9 @@ if __name__ == '__main__':
     # Diffusion 
     D_values = np.linspace(0.1, 10, 100)
 
+    D1 = 1
+    D2 = 1
+
     lambda2_values_L1 = []
     lambda2_values_L2 = []
     lambda2_values_avg = []
@@ -305,7 +308,7 @@ if __name__ == '__main__':
 
     for D in D_values:
         # Construct the supra-Laplacian matrix
-        supra_L = np.block([[L1, D * np.eye(numnodes)], [D * np.eye(numnodes), L2]])
+        supra_L = np.block([[D1*L1 + D*np.eye(numnodes), -D * np.eye(numnodes)], [-D * np.eye(numnodes), D2*L2 + D*np.eye(numnodes)]])
 
         # Calculate the eigenvalues
         eigenvalues_supra = np.linalg.eigvals(supra_L)
