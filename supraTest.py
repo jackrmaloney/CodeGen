@@ -29,7 +29,7 @@ lambda_values_2Dx = []
 lambda2_values_supra = []
 
 D1 = 1
-D2 = 2
+D2 = 1
 
 for D in D_values:
     # Construct the supra-Laplacian matrix
