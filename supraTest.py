@@ -28,9 +28,12 @@ lambda2_values_avg = []
 lambda_values_2Dx = []
 lambda2_values_supra = []
 
+D1 = 1
+D2 = 2
+
 for D in D_values:
     # Construct the supra-Laplacian matrix
-    supra_L = np.block([[L1, D * np.eye(N)], [D * np.eye(N), L2]])
+    supra_L = np.block([[D1*L1 + D*np.eye(N), -D * np.eye(N)], [-D * np.eye(N), D2*L2 + D*np.eye(N)]])
 
     eigenvalues_supra = np.linalg.eigvals(supra_L)
     
