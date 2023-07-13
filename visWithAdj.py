@@ -281,8 +281,8 @@ if __name__ == '__main__':
 
 
     # supra laplacian
-    L1 = nx.laplacian_matrix(G1).toarray()
-    L2 = nx.laplacian_matrix(G2).toarray()
+    L1 = nx.adjacency_matrix(G1).toarray()
+    L2 = nx.adjacency_matrix(G2).toarray()
 
     eigenvalues_L1 = np.linalg.eigvals(L1)
     eigenvalues_L2 = np.linalg.eigvals(L2)

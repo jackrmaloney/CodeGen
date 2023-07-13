@@ -14,7 +14,7 @@ G1 = nx.barabasi_albert_graph(N, m)
 G2 = nx.erdos_renyi_graph(N, m)
 
 # Create AlexNet model
-alexnet = models.alexnet(pretrained=True)
+alexnet = models.alexnet()
 
 # Interpret AlexNet as a DAG where each layer is a node
 G_alexnet = nx.DiGraph()
