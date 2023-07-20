@@ -5,7 +5,9 @@ import torch.optim as optim
 from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt
 import seaborn as sns
+import scipy.stats
 
+# Generate data
 x = np.linspace(0, 2 * np.pi, 1000)
 y = np.sin(x)
 
@@ -30,8 +32,11 @@ model = nn.Sequential(
 loss_fn = nn.MSELoss()
 optimizer = optim.Adam(model.parameters())
 
+# Add an array to keep track of entropy at each epoch
+entropy_over_time = []
+
 # Train the model
-for epoch in range(500):
+for epoch in range(3000):
     # Forward pass
     y_pred = model(x)
 
@@ -43,7 +48,21 @@ for epoch in range(500):
     loss.backward()
     optimizer.step()
 
-    print(f"Epoch {epoch+1}, MSE: {loss.item()}, RMSE: {np.sqrt(loss.item())}")
+    # Compute entropy and store it
+    all_weights = np.concatenate([w.detach().cpu().numpy().ravel() for w in model.parameters()])
+    weights_hist, bin_edges = np.histogram(all_weights, bins=50, density=True)
+    weights_entropy = scipy.stats.entropy(weights_hist)
+    entropy_over_time.append(weights_entropy)
+
+    print(f"Epoch {epoch+1}, MSE: {loss.item()}, RMSE: {np.sqrt(loss.item())}, Entropy: {weights_entropy}")
+
+# Plot entropy over time
+plt.figure(figsize=(10, 6))
+plt.plot(entropy_over_time, label='Entropy')
+plt.xlabel('Epoch')
+plt.ylabel('Entropy')
+plt.title('Entropy of weights over time')
+plt.show()
 
 # R2 Score
 model.eval()
@@ -94,4 +113,3 @@ plt.title('Spectral Density')
 plt.xlabel('Eigenvalue')
 plt.ylabel('Frequency')
 plt.show()
-
